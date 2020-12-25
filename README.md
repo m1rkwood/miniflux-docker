@@ -19,10 +19,17 @@ For `TTL`, I used the lowest available or `Automatic`
 ## Envionment
 
 Duplicate the `.env.template` and rename it to `.env`
-In the `.env` file, add the information necessary, generate strong passwords for the Database and Admin.
+In the `.env` file, add the information necessary, generate strong passwords for ADMIN_PASSWORD & POSTGRES_PASSWORD.
 
 ## Run the container
 
 ```
+docker-compose up -d
+```
+
+## Update miniflux
+
+```
+docker-compose build --pull
 docker-compose up -d
 ```

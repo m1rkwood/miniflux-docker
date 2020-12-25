@@ -29,13 +29,12 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
-      - db:/var/lib/postgresql/data
+      - miniflux-db:/var/lib/postgresql/data
     networks:
       - internal
 
 volumes:
-  db:
-  miniflux:
+  miniflux-db:
 
 networks:
   web:
