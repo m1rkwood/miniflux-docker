@@ -1,0 +1,44 @@
+version: "3.5"
+
+services:
+  miniflux:
+    image: miniflux/miniflux:latest
+    container_name: miniflux
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/miniflux?sslmode=disable
+      - RUN_MIGRATIONS=1
+      - CREATE_ADMIN=1
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.miniflux.rule=Host(`${SUB_DOMAIN}.${DOMAIN}`)
+      - traefik.http.routers.miniflux.tls=true
+      - traefik.http.routers.miniflux.tls.certresolver=letsencrypt
+      - traefik.http.routers.miniflux.entrypoints=websecure
+    networks:
+      - web
+      - internal
+
+  db:
+    image: postgres:alpine
+    container_name: miniflux-postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      - internal
+
+volumes:
+  db:
+  miniflux:
+
+networks:
+  web:
+    external: true
+  internal:
+    external: false
