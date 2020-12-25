@@ -4,6 +4,7 @@ services:
   miniflux:
     image: miniflux/miniflux:latest
     container_name: miniflux
+    restart: always
     depends_on:
       - db
     environment:
@@ -25,6 +26,7 @@ services:
   db:
     image: postgres:alpine
     container_name: miniflux-postgres
+    restart: always
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
