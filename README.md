@@ -33,3 +33,12 @@ docker-compose up -d
 docker-compose build --pull
 docker-compose up -d
 ```
+
+### Backup the database automatically
+
+You can add a cronjob to backup your database regularly.  
+On the host server, run `crontab -u <username> -e` and add the following:
+
+```
+0 8 * * 2 docker exec miniflux-postgres pg_dump -U <POSTGRES_USER> <DATABASE_NAME> > <PATH_TO_BACKUPS>/backups/backup_`date +%Y%m%d%H%M%S`.sql
+```
